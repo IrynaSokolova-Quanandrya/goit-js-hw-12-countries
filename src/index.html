@@ -12,10 +12,25 @@
     />
   </head>
   <body>
+    <!--Форма-->
+    <form class="form-inline search-form js-search-form">
+      <div class="form-group">
+        <label for="searchQuery" class="sr-only">search</label>
+        <input
+          type="text"
+          class="form-input"
+          name="query"
+          id="searchQuery"
+          placeholder="country"
+          autocomplete="off"
+        />
+      </div>
+    </form>
     
-    <include src="./partials/input.html"></include>
-    <include src="./partials/countries-list.html"></include>
-    <include src="./partials/country.html"></include>
+    <!--Список стран-->
+    <ul class="countries js-countries-search"></ul>
+    <!--Данные одной страны-->
+   <div class="country js-country-data"></div>
 
     
     <script src="./index.js"></script>
