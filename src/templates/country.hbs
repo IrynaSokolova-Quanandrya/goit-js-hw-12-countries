@@ -5,9 +5,12 @@
 <li class="data__item">{{capital}}</li>
 <li class="data__item">{{populationl}}</li>
 <li class="data__item languages">{{languages}}
+    {{#each languages}}
     <ul class="languages__item">
-        <li>{{language}}</li>
-    </ul>
+       <li>{{this.language}}</li> 
+        </ul>
+        {{/each}}
+    
 </li>
 </ul>
 </div>
