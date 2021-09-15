@@ -1,13 +1,12 @@
-
 import fetchCountries from './js/fetch-countries.js';
-import { alert, defaultModules } from 'node_modules/@pnotify/core/dist/PNotify.js';
-import * as PNotifyMobile from 'node_modules/@pnotify/mobile/dist/PNotifyMobile.js';
-// // import '@pnotify/core/dist/BrightTheme.css';
+import { alert, defaultModules } from '../node_modules/@pnotify/core/dist/PNotify.js';
+import * as PNotifyMobile from '../node_modules/@pnotify/mobile/dist/PNotifyMobile.js';
+import '@pnotify/core/dist/BrightTheme.css';
 defaultModules.set(PNotifyMobile, {});
 import countriesTpl from './templates/countries-list.hbs';
 import countryTpl from './templates/country.hbs';
-// const debounce = require ('lodash.debounce');
-import { debounce } from 'lodash';
+const debounce = require ('lodash.debounce');
+// import { debounce } from 'lodash';
 
 
 const refs = {
@@ -19,11 +18,21 @@ const refs = {
 
 const onSearchResault = () => {
   let query = refs.input.value;
+  if(!value) return
   let promisCountriesArray = fetchCountries(query);
   promisCountriesArray.then(array=>{
     console.log(array)
-  
-      if(array > 10){
+    if (array.status === 404) {
+      alert({
+       title: "I don't know  such country.",
+       text: "Please ask something more simple.",
+       type: 'error',
+       delay: 3000,
+       hide: true,
+      });
+      return
+  }
+      if((array.length > 10) || (array.length === 0)){
     alert({
     title: 'Too many matches found.',
     text: ' Please enter a more specific query!',
@@ -33,12 +42,12 @@ const onSearchResault = () => {
 });
 return;
 }
-      if((array >= 1) && (array <= 10)){
-        refs.countryList.insertAdjacentHTML('beforeend', countriesTpl());
+      if((array.length > 1) && (array.length <= 10)){
+        createCountryListMarckup();
         return;
 }
-      if(array === 1){
-        refs.countryData.insertAdjacentHTML('beforeend', countryTpl(countries));
+      if(array.length === 1){
+        createCountryDataMarckup();
         return;
 }
 })
@@ -52,7 +61,13 @@ return;
   });
 });
 }
-console.log(onSearchResault);
 
+function createCountryListMarckup (){
+  refs.countryList.insertAdjacentHTML('beforeend', countriesTpl(query));
+};
+
+function createCountryDataMarckup (){
+  refs.countryData.insertAdjacentHTML('beforeend', countryTpl(query[0]));
+};
 
 refs.searchForm.addEventListener('input', debounce(onSearchResault, 500));
