@@ -30,7 +30,7 @@ const onSearchResault = () => {
        delay: 3000,
        hide: true,
       });
-      return
+      return;
   }
       if((array.length > 10) || (array.length === 0)){
     alert({
@@ -51,23 +51,23 @@ return;
         return;
 }
 })
-.catch(() => {
-  alert({
-    title: "Error",
-    text: "Something went wrong",
-    type: 'error',
-    delay: 3000,
-    hide: true,
-  });
-});
+// .catch(() => {
+//   alert({
+//     title: "Error",
+//     text: "Something went wrong",
+//     type: 'error',
+//     delay: 3000,
+//     hide: true,
+//   });
+// });
 };
 
 function createCountryListMarckup (){
-  refs.countryList.insertAdjacentHTML('beforeend', countriesTpl(query));
+  refs.countryList.insertAdjacentHTML('beforeend', countriesTpl(array));
 };
 
 function createCountryDataMarckup (){
-  refs.countryData.insertAdjacentHTML('beforeend', countryTpl(query[0]));
+  refs.countryData.insertAdjacentHTML('beforeend', countryTpl(array[0]));
 };
 
 refs.input.addEventListener('input', debounce(onSearchResault, 500));
