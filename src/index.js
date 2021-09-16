@@ -1,7 +1,7 @@
 import fetchCountries from './js/fetch-countries.js';
 import { alert, defaultModules } from '../node_modules/@pnotify/core/dist/PNotify.js';
-// import * as PNotifyMobile from '../node_modules/@pnotify/mobile/dist/PNotifyMobile.js';
-// import '@pnotify/core/dist/BrightTheme.css';
+import * as PNotifyMobile from '../node_modules/@pnotify/mobile/dist/PNotifyMobile.js';
+import '@pnotify/core/dist/BrightTheme.css';
 defaultModules.set(PNotifyMobile, {});
 import countriesTpl from './templates/countries-list.hbs';
 import countryTpl from './templates/country.hbs';
@@ -18,7 +18,7 @@ const refs = {
 
 const onSearchResault = () => {
   let query = refs.input.value;
-  if(!value) return
+  if(!query) return
   let promisCountriesArray = fetchCountries(query);
   promisCountriesArray.then(array=>{
     console.log(array)
@@ -60,7 +60,7 @@ return;
     hide: true,
   });
 });
-}
+};
 
 function createCountryListMarckup (){
   refs.countryList.insertAdjacentHTML('beforeend', countriesTpl(query));
@@ -70,4 +70,4 @@ function createCountryDataMarckup (){
   refs.countryData.insertAdjacentHTML('beforeend', countryTpl(query[0]));
 };
 
-refs.searchForm.addEventListener('input', debounce(onSearchResault, 500));
+refs.input.addEventListener('input', debounce(onSearchResault, 500));
