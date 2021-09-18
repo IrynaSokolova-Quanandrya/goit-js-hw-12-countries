@@ -12,6 +12,7 @@ body {
     margin: 10px;
     height: 100vh;
     width: 100%;
+    font-size: 24px;
     background-image: linear-gradient(
       to right,
       rgba(47, 48, 58, 0.4),
@@ -42,9 +43,13 @@ p {
 ul {
 	list-style: none;
 	padding-left: 0;
-	margin: 0;
+	margin: 0px, 20px, 0px, 0px;
 }
- 
+
+li:not(:first-child) {
+    margin-top: 10px;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -68,19 +73,3 @@ img {
      
 }
 
-.country 
-.countries{
-    margin-top: 40px;
-}
-.name{
-    text-align: center;
-}
-.data__list
-.countries{
-    margin-bottom: 20px;
-}
-.data__item:not(:last-child)
-.countries{
-    padding-bottom: 10px;
-   
-}
