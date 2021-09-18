@@ -65,15 +65,15 @@ const onSearchResault = () => {
         hide: true,
       })
     })
-    // .finally(() => (refs.input.value = ''));
+   
 };
 
 function createCountryListMarckup(array) {
-  refs.countryList.insertAdjacentHTML('beforeend', countriesTpl(array));
+      refs.countryList.innerHTML = countriesTpl(array);
 }
 
 function createCountryDataMarckup(array) {
-  refs.countryData.insertAdjacentHTML('beforeend', countryTpl(array[0]));
+  refs.countryData.innerHTML = countryTpl(array[0]);
 }
 
 refs.input.addEventListener('input', debounce(onSearchResault, 500));
