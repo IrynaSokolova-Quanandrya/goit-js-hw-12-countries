@@ -1,13 +1,19 @@
 import './css/styles.css'
 import fetchCountries from './js/fetch-countries.js';
-import { alert, defaultModules } from '../node_modules/@pnotify/core/dist/PNotify.js';
-import * as PNotifyMobile from '../node_modules/@pnotify/mobile/dist/PNotifyMobile.js';
-import '@pnotify/core/dist/BrightTheme.css';
-defaultModules.set(PNotifyMobile, {});
 import countriesTpl from './templates/countries-list.hbs';
 import countryTpl from './templates/country.hbs';
 const debounce = require('lodash.debounce');
 // import { debounce } from 'lodash';
+// import { alert, defaultModules } from '../node_modules/@pnotify/core/dist/PNotify.js';
+// import * as PNotifyMobile from '../node_modules/@pnotify/mobile/dist/PNotifyMobile.js';
+// import '@pnotify/core/dist/BrightTheme.css';
+// defaultModules.set(PNotifyMobile, {});
+import { alert, error, defaultModules } from '@pnotify/core/dist/PNotify.js';
+import * as PNotifyMobile from '@pnotify/mobile/dist/PNotifyMobile.js';
+import '@pnotify/core/dist/PNotify.css';
+import '@pnotify/core/dist/BrightTheme.css';
+defaultModules.set(PNotifyMobile, {});
+
 
 const refs = {
   searchForm: document.querySelector('.js-search-form'),
@@ -17,7 +23,7 @@ const refs = {
 };
 
 const onSearchResault = () => {
-  let query = refs.input.value;
+  let query = refs.input.value.trim();
   console.log(query);
   if (!query) return;
   let promisCountriesArray = fetchCountries(query);
@@ -53,7 +59,16 @@ const onSearchResault = () => {
         createCountryDataMarckup(array);
       }
     })
-    .finally(() => (refs.input.value = ''));
+    .catch(() => {
+      alert({
+        title: "Error",
+        text: "Something went wrong",
+        type: 'error',
+        delay: 3000,
+        hide: true,
+      })
+    })
+    // .finally(() => (refs.input.value = ''));
 };
 
 function createCountryListMarckup(array) {
