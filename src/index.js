@@ -3,7 +3,6 @@ import fetchCountries from './js/fetch-countries.js';
 import countriesTpl from './templates/countries-list.hbs';
 import countryTpl from './templates/country.hbs';
 const debounce = require('lodash.debounce');
-// import { debounce } from 'lodash';
 import { alert, defaultModules } from '../node_modules/@pnotify/core/dist/PNotify.js';
 import * as PNotifyMobile from '../node_modules/@pnotify/mobile/dist/PNotifyMobile.js';
 import '@pnotify/core/dist/BrightTheme.css';
@@ -17,12 +16,14 @@ const refs = {
   countryList: document.querySelector('.js-countries-search'),
   countryData: document.querySelector('.js-country-data'),
   input: document.getElementById('searchQuery'),
+  container: document.querySelector('.container')
 };
 
 const onSearchResault = () => {
   let query = refs.input.value.trim();
   console.log(query);
-  if (!query) return;
+  if (!query ) return;
+   
   let promisCountriesArray = fetchCountries(query);
   promisCountriesArray
     .then(res => {
@@ -51,11 +52,16 @@ const onSearchResault = () => {
       }
       if (array.length > 1 && array.length <= 10) {
         createCountryListMarckup(array);
+        clearMarckup(refs.countryData, '');
       }
       if (array.length === 1) {
         createCountryDataMarckup(array);
+        clearMarckup(refs.countryList, '');
       }
+    
     })
+    
+    
     .catch(() => {
       alert({
         title: "Error",
@@ -74,6 +80,10 @@ function createCountryListMarckup(array) {
 
 function createCountryDataMarckup(array) {
   refs.countryData.innerHTML = countryTpl(array[0]);
+}
+function clearMarckup(marckup, value){
+  marckup.innerHTML = value;
+
 }
 
 refs.input.addEventListener('input', debounce(onSearchResault, 500));
